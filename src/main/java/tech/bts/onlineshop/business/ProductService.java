@@ -62,4 +62,8 @@ public class ProductService {
         }
     }
 
+    public int getCount () {
+        return this.productDatabase.getCount();
+    }
+
 }

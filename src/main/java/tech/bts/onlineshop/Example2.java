@@ -6,7 +6,6 @@ import tech.bts.onlineshop.model.CartItem;
 import tech.bts.onlineshop.model.Product;
 import tech.bts.onlineshop.model.ShoppingCart;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Example2 {
@@ -15,21 +14,26 @@ public class Example2 {
         ProductDatabase productDatabase = new ProductDatabase();
 
         ProductService productService = new ProductService(productDatabase);
-        long p1 = productService.createProduct(new Product("MacBook", "Apple", 1500));
-        long p2 = productService.createProduct(new Product("iPhone xs", "Apple", 1200));
+        long p1Id = productService.createProduct(new Product("MacBook", "Apple", 1500));
+        long p2Id = productService.createProduct(new Product("iPhone xs", "Apple", 1200));
 
-        productService.addProductStock(p1, 100);
-        productService.addProductStock(p1, 200);
-        productService.addProductStock(p2, 250);
+        productService.addProductStock(p1Id, 100);
+        productService.addProductStock(p1Id, 200);
+        productService.addProductStock(p2Id, 250);
 
-        Product product = productService.getProductById(p1);
+        Product product = productService.getProductById(p1Id);
         System.out.println("There are " + product.getQuantity() + " units of " + product.getName() + "s");
 
-        List<CartItem> items = Arrays.asList(
-                new CartItem(p1, 150),
-                new CartItem(p2, 300));
+        //List<CartItem> items = Arrays.asList(
+        //      new CartItem(p1Id, 150),
+        //      new CartItem(p2Id, 300));
 
-        ShoppingCart cart = new ShoppingCart(items);
+        ShoppingCart cart = new ShoppingCart();
+        cart.add(new CartItem(p1Id, 150));
+        System.out.println(productService.amountAvailable(p1Id, 150));
+        cart.add(new CartItem(p2Id, 300));
+        System.out.println(productService.checkAvailability(p2Id, 300));
+
         ShoppingCart finalCart = productService.checkCart(cart);
         List<CartItem> finalItems = finalCart.getItems();
 
@@ -39,8 +43,19 @@ public class Example2 {
             System.out.println(product1.getName() + " : " + finalItem.getQuantity() + " units");
         }
 
-        System.out.println(productService.checkAvailability(p2, 300));
-        System.out.println(productService.amountAvailable(p1, 150));
+        System.out.println(productService.getProductById(p1Id).getName()
+                + " units before purchasing: "
+                + productService.getProductById(p1Id).getQuantity());
+
+        productService.purchase(finalCart);
+
+        System.out.println(productService.getProductById(p1Id).getName()
+                + " units after purchasing: "
+                + productService.getProductById(p1Id).getQuantity());
+
+
+
+
 
 
     }

@@ -5,7 +5,6 @@ import tech.bts.onlineshop.model.CartItem;
 import tech.bts.onlineshop.model.Product;
 import tech.bts.onlineshop.model.ShoppingCart;
 
-import java.util.List;
 
 public class ProductService {
 
@@ -32,9 +31,8 @@ public class ProductService {
     /**Given a cart, checks the availability of the products and returns a new cart with the num of
      * products that can be delivered (in stock)*/
     public ShoppingCart checkCart (ShoppingCart cart) {
-        List<CartItem> productsInCart = cart.getItems();
 
-        for (CartItem cartItem : productsInCart) {
+        for (CartItem cartItem : cart.getItems()) {
             Product product = getProductById(cartItem.getProductId());
             if (cartItem.getQuantity() > product.getQuantity()){
                 cartItem.setQuantity(product.getQuantity());
@@ -53,6 +51,15 @@ public class ProductService {
     /**Given a product id and a desired quantity, returns the quantity that is possible to deliver*/
     public int amountAvailable (long productID, int quantity) {
         return Math.min(this.productDatabase.get(productID).getQuantity(), quantity);
+    }
+
+    /**Reduces the quantities of the products by the quantities in the cart*/
+    public void purchase (ShoppingCart cart) {
+
+        for (CartItem item : cart.getItems()) {
+            Product product = this.productDatabase.get(item.getProductId());
+            product.setQuantity(product.getQuantity() - item.getQuantity());
+        }
     }
 
 }

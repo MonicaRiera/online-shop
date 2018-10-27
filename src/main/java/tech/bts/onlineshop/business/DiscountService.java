@@ -2,15 +2,17 @@ package tech.bts.onlineshop.business;
 
 import tech.bts.onlineshop.model.Discount;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class DiscountService {
 
-    private Map<String, Discount> discountMap;
+    private Map<String, Discount> discountMap = new HashMap<>();
 
     /**Adds a given discount to the map*/
-    public void createDiscount(Discount discount) {
-        this.discountMap.put(discount.getId(), discount);
+    public String createDiscount(Discount discount) {
+        discountMap.put(discount.getId(), discount);
+        return discount.getId();
     }
 
     /**Given a discount id and an amount, returns the final amount after applying the discount.
@@ -30,6 +32,10 @@ public class DiscountService {
         }
 
         return finalAmount;
+    }
+
+    public Map<String, Discount> getDiscountMap() {
+        return discountMap;
     }
 }
 

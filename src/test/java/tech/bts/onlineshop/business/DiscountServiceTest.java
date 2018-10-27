@@ -28,7 +28,6 @@ public class DiscountServiceTest {
         assertEquals(30.0, discountService.calculateFinalAmount(discount, 100), 0.0);
     }
 
-    // And another test will try to use a discount that doesn't exist, so you expect no discount to be applied.
     @Test
     public void not_existing_discount() {
         DiscountService discountService = new DiscountService();

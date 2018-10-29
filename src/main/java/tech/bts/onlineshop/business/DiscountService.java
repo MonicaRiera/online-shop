@@ -10,9 +10,8 @@ public class DiscountService {
     private Map<String, Discount> discountMap = new HashMap<>();
 
     /**Adds a given discount to the map*/
-    public String createDiscount(Discount discount) {
+    public void createDiscount(Discount discount) {
         discountMap.put(discount.getId(), discount);
-        return discount.getId();
     }
 
     /**Given a discount id and an amount, returns the final amount after applying the discount.

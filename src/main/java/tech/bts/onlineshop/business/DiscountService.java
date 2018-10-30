@@ -20,7 +20,7 @@ public class DiscountService {
     to properly calculate the final amount.*/
     public double calculateFinalAmount (String discountId, double amount) {
         Discount discount = this.discountMap.get(discountId);
-        double finalAmount = amount;
+        double finalAmount;
 
         if (discount != null) {
             if (discount.isPercentage()) {
@@ -28,6 +28,8 @@ public class DiscountService {
             } else {
                 finalAmount = amount - discount.getAmount();
             }
+        } else {
+            finalAmount = amount;
         }
 
         return finalAmount;

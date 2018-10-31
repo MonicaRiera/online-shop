@@ -24,7 +24,7 @@ public class DiscountService {
 
         if (discount != null) {
             if (discount.isPercentage()) {
-                finalAmount = amount * discount.getAmount() /100;
+                finalAmount = amount *(1 - discount.getAmount() /100);
             } else {
                 finalAmount = amount - discount.getAmount();
             }
@@ -32,7 +32,11 @@ public class DiscountService {
             finalAmount = amount;
         }
 
-        return finalAmount;
+        if (finalAmount < 0) {
+            return 0;
+        } else {
+            return finalAmount;
+        }
     }
 
     public Map<String, Discount> getDiscountMap() {

@@ -33,4 +33,12 @@ public class DiscountServiceTest {
         DiscountService discountService = new DiscountService();
         assertEquals(100.0, discountService.calculateFinalAmount("WHATEVER", 100), 0.0);
     }
+
+    @Test
+    public void discount_higher_than_amount() {
+        DiscountService discountService = new DiscountService();
+        discountService.createDiscount(new Discount("BF2018", "Black Friday", 70, false));
+        double totalAmount = discountService.calculateFinalAmount("BF2018", 50);
+        assertEquals(0, totalAmount, 0.0);
+    }
 }
